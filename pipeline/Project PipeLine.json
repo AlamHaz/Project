@@ -62,7 +62,17 @@
 						]
 					}
 				],
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup configration').output.value",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@equals(item().Source,'Filesystem')",
+						"type": "Expression"
+					}
+				}
 			},
 			{
 				"name": "ForEach1",
