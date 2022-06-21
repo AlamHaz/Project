@@ -1,0 +1,17 @@
+{
+	"name": "SqlServerlocalDB",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=True;data source=DESKTOP-JOS5LPK;initial catalog=DBW",
+			"userName": "LINE",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI0ZjYyZTAwNC00ZjI5LTRjZGItYjQ5YS03ZDI2NTNlZWNkNjEiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "integrationRuntimelocalSQL",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
