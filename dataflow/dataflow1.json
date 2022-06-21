@@ -1,0 +1,37 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Datastagelinkservice",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "aggregate1"
+				}
+			],
+			"scriptLines": [
+				"parameters{",
+				"     sourcetable as string ($sourcetable),",
+				"     watermark_feild as string ($watermark_feild)",
+				"}",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     wildcardPaths:[($sourcetable)]) ~> source1",
+				"source1 aggregate(Max_Aggragate = iif(toString($sourcetable) == 'Customer.Csv',\r",
+				"max(toTimestamp(toString(byName($watermark_feild)),\r",
+				"'dd-MM-yyyy HH:mm')),\r",
+				"max(toTimestamp(byName($watermark_feild),'dd-MM-yyyy')))) ~> aggregate1"
+			]
+		}
+	}
+}
