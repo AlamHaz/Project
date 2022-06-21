@@ -141,8 +141,54 @@
 										},
 										"userProperties": [],
 										"typeProperties": {
-											"enableStaging": false
-										}
+											"source": {
+												"type": "SqlServerSource",
+												"sqlReaderQuery": {
+													"value": "Select * from @{item().Source_Table}\nWhere \nconvert(datetime,@{item().Watermark_Column}, 105) >\nConvert(datetime, \n    Substirng( \n    replace('@{activity('Get Max of Last updated date DFG').output.firstRow.WaterMark_value}'\n,'T',''),0,20),120)",
+													"type": "Expression"
+												},
+												"queryTimeout": "02:00:00",
+												"partitionOption": "None"
+											},
+											"sink": {
+												"type": "DelimitedTextSink",
+												"storeSettings": {
+													"type": "AzureBlobStorageWriteSettings"
+												},
+												"formatSettings": {
+													"type": "DelimitedTextWriteSettings",
+													"quoteAllText": true,
+													"fileExtension": ".txt"
+												}
+											},
+											"enableStaging": false,
+											"translator": {
+												"type": "TabularTranslator",
+												"typeConversion": true,
+												"typeConversionSettings": {
+													"allowDataTruncation": true,
+													"treatBooleanAsNumber": false
+												}
+											}
+										},
+										"inputs": [
+											{
+												"referenceName": "SqlServerlocalDB",
+												"type": "DatasetReference"
+											}
+										],
+										"outputs": [
+											{
+												"referenceName": "Datastagelinkservice",
+												"type": "DatasetReference",
+												"parameters": {
+													"filename": {
+														"value": "@{item().Dest_Table}",
+														"type": "Expression"
+													}
+												}
+											}
+										]
 									},
 									{
 										"name": "Mapping dataflow",
