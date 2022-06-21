@@ -1,0 +1,12 @@
+{
+	"name": "AzureSqlTablelinkservice",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabaseCFG",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	}
+}

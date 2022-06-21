@@ -1,0 +1,43 @@
+{
+	"name": "SqlServerlocalDB",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SqlServerlocalDB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "customer_Id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DOB",
+				"type": "date"
+			},
+			{
+				"name": "Gender",
+				"type": "nvarchar"
+			},
+			{
+				"name": "city_code",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Customer_Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Created_Modified_Date",
+				"type": "datetime2",
+				"scale": 7
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Customer"
+		}
+	}
+}
