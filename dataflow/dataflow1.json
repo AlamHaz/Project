@@ -35,7 +35,7 @@
 			"scriptLines": [
 				"parameters{",
 				"     sourcetable as string ($sourcetable),",
-				"     watermark_feild as string ($watermark_feild)",
+				"     watermark_feild as string",
 				"}",
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
@@ -58,6 +58,7 @@
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
+				"     saveOrder: 1,",
 				"     errorHandlingOption: 'stopOnFirstError',",
 				"     mapColumn(",
 				"          TableName,",
