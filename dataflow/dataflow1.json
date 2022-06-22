@@ -58,10 +58,11 @@
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
+				"     saveOrder: 1,",
 				"     errorHandlingOption: 'stopOnFirstError',",
 				"     mapColumn(",
-				"          Max_Aggragate,",
-				"          TableName",
+				"          TableName,",
+				"          {Max_Aggragate } = Max_Aggragate",
 				"     )) ~> sink1"
 			]
 		}
