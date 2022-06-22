@@ -293,7 +293,7 @@
 														"type": "Expression"
 													},
 													"sourcetable": {
-														"value": "'@{item().Watermark_Value}'",
+														"value": "'@{item().Watermark_Column}'",
 														"type": "Expression"
 													}
 												},
