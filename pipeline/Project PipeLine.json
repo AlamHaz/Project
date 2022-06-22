@@ -293,7 +293,7 @@
 														"type": "Expression"
 													},
 													"watermark_feild": {
-														"value": "@item().WaterMark_value",
+														"value": "@item().Watermark_Column",
 														"type": "Expression"
 													}
 												},
