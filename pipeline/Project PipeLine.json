@@ -291,10 +291,6 @@
 													"sourcetable": {
 														"value": "'@{item().Dest_Table}'",
 														"type": "Expression"
-													},
-													"watermark_feild": {
-														"value": "'@{item().Watermark_Column}'",
-														"type": "Expression"
 													}
 												},
 												"datasetParameters": {

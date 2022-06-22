@@ -35,7 +35,7 @@
 			"scriptLines": [
 				"parameters{",
 				"     sourcetable as string ($sourcetable),",
-				"     watermark_feild as string",
+				"     watermark_feild as string ($watermark_feild)",
 				"}",
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
