@@ -288,7 +288,14 @@
 												"referenceName": "dataflow1",
 												"type": "DataFlowReference",
 												"parameters": {
-													"watermark_feild": "$watermark_feild"
+													"watermark_feild": {
+														"value": "'@{item().Dest_Table}'",
+														"type": "Expression"
+													},
+													"sourcetable": {
+														"value": "'@{item().Watermark_Value}'",
+														"type": "Expression"
+													}
 												},
 												"datasetParameters": {
 													"source1": {
