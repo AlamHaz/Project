@@ -1,0 +1,42 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "ProjectSampleADF"
+		},
+		"AzureBlobStoragedatastage_connectionString": {
+			"value": ""
+		},
+		"AzureBlobStorageforonlinedata_connectionString": {
+			"value": ""
+		},
+		"AzureSqlDatabaseCFG_connectionString": {
+			"value": ""
+		},
+		"FileServerlocal_password": {
+			"value": ""
+		},
+		"SqlServerlocalDB_connectionString": {
+			"value": ""
+		},
+		"SqlServerlocalDB_password": {
+			"value": ""
+		},
+		"FileServerlocal_properties_typeProperties_host": {
+			"value": "\\\\DESKTOP-JOS5LPK\\Data"
+		},
+		"FileServerlocal_properties_typeProperties_userId": {
+			"value": "Line"
+		},
+		"SqlServerlocalDB_properties_typeProperties_userName": {
+			"value": "LINE"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
