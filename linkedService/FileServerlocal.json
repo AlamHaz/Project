@@ -1,0 +1,17 @@
+{
+	"name": "FileServerlocal",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "FileServer",
+		"typeProperties": {
+			"host": "\\\\DESKTOP-JOS5LPK\\Data",
+			"userId": "Line",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJhN2Q1Y2M0Ni05YmY5LTQyY2MtYWEwYy1kOGM4YWFlNDk5YWMiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "integrationRuntimelocalSQL",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
