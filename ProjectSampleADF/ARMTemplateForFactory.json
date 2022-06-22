@@ -273,7 +273,7 @@
 													"source": {
 														"type": "SqlServerSource",
 														"sqlReaderQuery": {
-															"value": "Select * from @{item().Source_Table}\nWhere \nconvert(datetime,@{item().Watermark_Column}, 105) >\nConvert(datetime, \n    Substirng( \n    replace('@{activity('Get Max of Last updated date DFG').output.firstRow.Watermark_Value}'\n,'T',''),0,20),120)",
+															"value": "Select \n* \nfrom @{item().Source_Table}\nWhere \nConvert(datetime,@{item().Watermark_Column}, 105) >\nConvert(datetime, \n    substring( \n        replace('@{activity('Get Max of Last updated date DFG').output.firstRow.Watermark_Value}','T','')\n        ,0,20)\n    ,120)",
 															"type": "Expression"
 														},
 														"queryTimeout": "02:00:00",
