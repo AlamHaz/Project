@@ -52,7 +52,7 @@
 				}
 			},
 			{
-				"name": "Filter2",
+				"name": "Filter_Files",
 				"type": "Filter",
 				"dependsOn": [
 					{
@@ -359,7 +359,7 @@
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Filter2",
+						"activity": "Filter_Files",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -374,8 +374,45 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "FileServerReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
 					"enableStaging": false
-				}
+				},
+				"inputs": [
+					{
+						"referenceName": "Localfile",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Datastagelinkservice",
+						"type": "DatasetReference",
+						"parameters": {
+							"filename": "Product-Category-Subcategory.Csv"
+						}
+					}
+				]
 			},
 			{
 				"name": "Lookup2",
@@ -395,7 +432,19 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "Update cfg\nset status ='Succeeded'\nwhere Dest_Table ='Product-Category-Subcategory'\nSelect 1",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "AzureSqlTablelinkservice",
+						"type": "DatasetReference"
+					}
+				}
 			}
 		],
 		"annotations": []

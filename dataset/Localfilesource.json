@@ -1,0 +1,39 @@
+{
+	"name": "Localfilesource",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "FileServerlocal",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "FileServerLocation",
+				"fileName": "005 Product-Category-Subcategory.csv"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "prod_cat_code",
+				"type": "String"
+			},
+			{
+				"name": "prod_cat",
+				"type": "String"
+			},
+			{
+				"name": "prod_sub_cat_code",
+				"type": "String"
+			},
+			{
+				"name": "prod_subcat",
+				"type": "String"
+			}
+		]
+	}
+}
