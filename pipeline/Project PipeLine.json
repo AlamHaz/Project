@@ -218,7 +218,7 @@
 											"source": {
 												"type": "SqlServerSource",
 												"sqlReaderQuery": {
-													"value": "Select * from @{item().Source_Table}\nWhere\nConvert(datetime,@{item().Watermark_Column},105) >\nConvert(datetime,substring( replace('@{activity('Get Max of Last updated date DFG').output.firstRow.Watermark_Value}','T',''),0,20),120)\n\n",
+													"value": "Select * from @{item().Source_Table}\nWhere\nCONVERT(datetime,@{item().Watermark_Column},105) >\nCONVERT(datetime, substring(replace('@{activity('Get Max of Last updated date DFG').output.firstRow.Watermark_Value}',\n'T',' '),0,20),120)\n",
 													"type": "Expression"
 												},
 												"queryTimeout": "02:00:00",
@@ -288,7 +288,6 @@
 												"referenceName": "dataflow1",
 												"type": "DataFlowReference",
 												"parameters": {
-													"sourcetable": "$sourcetable",
 													"watermark_feild": "$watermark_feild"
 												},
 												"datasetParameters": {
