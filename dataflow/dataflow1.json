@@ -45,7 +45,7 @@
 				"max(toTimestamp(toString(byName($watermark_feild)),\r",
 				"'dd-MM-yyyy HH:mm')),\r",
 				"max(toTimestamp(byName($watermark_feild),'dd-MM-yyyy')))) ~> aggregate1",
-				"aggregate1 derive(TableName = $sourcetable) ~> derivedColumn1",
+				"aggregate1 derive(Dest_Table = $sourcetable) ~> derivedColumn1",
 				"derivedColumn1 alterRow(updateIf(isNull(Max_Aggragate)==false())) ~> alterRow1",
 				"alterRow1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
@@ -53,7 +53,7 @@
 				"     insertable:false,",
 				"     updateable:true,",
 				"     upsertable:false,",
-				"     keys:['TableName'],",
+				"     keys:['Dest_Table'],",
 				"     skipKeyWrites:true,",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
@@ -61,8 +61,8 @@
 				"     saveOrder: 1,",
 				"     errorHandlingOption: 'stopOnFirstError',",
 				"     mapColumn(",
-				"          Max_Aggragate,",
-				"          TableName",
+				"          Dest_Table,",
+				"          Watermark_Value = Max_Aggragate",
 				"     )) ~> sink1"
 			]
 		}
