@@ -377,8 +377,8 @@
 					],
 					"scriptLines": [
 						"parameters{",
-						"     sourcetable as string,",
-						"     watermark_feild as string",
+						"     watermark_feild as string,",
+						"     sourcetable as string",
 						"}",
 						"source(allowSchemaDrift: true,",
 						"     validateSchema: false,",
@@ -388,7 +388,7 @@
 						"max(toTimestamp(toString(byName($watermark_feild)),\r",
 						"'dd-MM-yyyy HH:mm')),\r",
 						"max(toTimestamp(byName($watermark_feild),'dd-MM-yyyy')))) ~> aggregate1",
-						"aggregate1 derive(TableName = $sourcetable) ~> derivedColumn1",
+						"aggregate1 derive(Dest_Table = $sourcetable) ~> derivedColumn1",
 						"derivedColumn1 alterRow(updateIf(isNull(Max_Aggragate)==false())) ~> alterRow1",
 						"alterRow1 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
@@ -396,7 +396,7 @@
 						"     insertable:false,",
 						"     updateable:true,",
 						"     upsertable:false,",
-						"     keys:['TableName'],",
+						"     keys:['Dest_Table'],",
 						"     skipKeyWrites:true,",
 						"     format: 'table',",
 						"     skipDuplicateMapInputs: true,",
@@ -404,8 +404,8 @@
 						"     saveOrder: 1,",
 						"     errorHandlingOption: 'stopOnFirstError',",
 						"     mapColumn(",
-						"          Max_Aggragate,",
-						"          TableName",
+						"          Dest_Table,",
+						"          Watermark_Value = Max_Aggragate",
 						"     )) ~> sink1"
 					]
 				}
@@ -640,7 +640,7 @@
 													"source": {
 														"type": "SqlServerSource",
 														"sqlReaderQuery": {
-															"value": "Select \n* \nfrom @{item().Source_Table}\nWhere \nConvert(datetime,@{item().Watermark_Column}, 105) >\nConvert(datetime, \n    substring( \n        replace('@{activity('Get Max of Last updated date DFG').output.firstRow.Watermark_Value}','T','')\n        ,0,20)\n    ,120)",
+															"value": "Select * from @{item().Source_Table}\nWhere\nCONVERT(datetime,@{item().Watermark_Column},105) >\nCONVERT(datetime, substring(replace('@{activity('Get Max of Last updated date DFG').output.firstRow.Watermark_Value}',\n'T',' '),0,20),120)\n",
 															"type": "Expression"
 														},
 														"queryTimeout": "02:00:00",
@@ -711,8 +711,14 @@
 														"referenceName": "dataflow1",
 														"type": "DataFlowReference",
 														"parameters": {
-															"sourcetable": "$sourcetable",
-															"watermark_feild": "$watermark_feild"
+															"watermark_feild": {
+																"value": "'@{item().Watermark_Column}'",
+																"type": "Expression"
+															},
+															"sourcetable": {
+																"value": "'@{item().Dest_Table}'",
+																"type": "Expression"
+															}
 														},
 														"datasetParameters": {
 															"source1": {
@@ -722,7 +728,8 @@
 																}
 															},
 															"sink1": {}
-														}
+														},
+														"linkedServiceParameters": {}
 													},
 													"staging": {},
 													"compute": {
