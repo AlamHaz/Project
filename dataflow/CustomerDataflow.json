@@ -1,0 +1,142 @@
+{
+	"name": "CustomerDataflow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Customer_CSV",
+						"type": "DatasetReference"
+					},
+					"name": "CustomerStageing"
+				},
+				{
+					"dataset": {
+						"referenceName": "DimCustomer",
+						"type": "DatasetReference"
+					},
+					"name": "DimCustomer"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimCustomer",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				},
+				{
+					"dataset": {
+						"referenceName": "DimCustomer",
+						"type": "DatasetReference"
+					},
+					"name": "sink2"
+				}
+			],
+			"transformations": [
+				{
+					"name": "exists1"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "exists2"
+				},
+				{
+					"name": "derivedColumn2"
+				},
+				{
+					"name": "alterRow1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          customer_Id as string,",
+				"          DOB as string,",
+				"          Gender as string,",
+				"          city_code as string,",
+				"          Customer_Name as string,",
+				"          Created_Modified_Date as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> CustomerStageing",
+				"source(output(",
+				"          customer_key as integer,",
+				"          customer_Id as integer,",
+				"          customer_name as string,",
+				"          DOB as string,",
+				"          city_code as string,",
+				"          gender as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DimCustomer",
+				"CustomerStageing, DimCustomer exists(toInteger(CustomerStageing@customer_Id) == DimCustomer@customer_Id,",
+				"     negate:true,",
+				"     broadcast: 'auto')~> exists1",
+				"exists1 derive(customer_Id = toInteger(customer_Id)) ~> derivedColumn1",
+				"CustomerStageing, DimCustomer exists(toInteger(CustomerStageing@customer_Id) == DimCustomer@customer_Id,",
+				"     negate:false,",
+				"     broadcast: 'auto')~> exists2",
+				"exists2 derive(customer_Id = toInteger(customer_Id)) ~> derivedColumn2",
+				"derivedColumn2 alterRow(updateIf(true())) ~> alterRow1",
+				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          customer_key as integer,",
+				"          customer_Id as integer,",
+				"          customer_name as string,",
+				"          DOB as string,",
+				"          city_code as string,",
+				"          gender as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          customer_Id,",
+				"          customer_name = Customer_Name,",
+				"          DOB,",
+				"          city_code,",
+				"          gender = Gender",
+				"     )) ~> sink1",
+				"alterRow1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          customer_key as integer,",
+				"          customer_Id as integer,",
+				"          customer_name as string,",
+				"          DOB as string,",
+				"          city_code as string,",
+				"          gender as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:false,",
+				"     updateable:true,",
+				"     upsertable:false,",
+				"     keys:['customer_Id'],",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          customer_Id,",
+				"          customer_name = Customer_Name,",
+				"          DOB,",
+				"          city_code,",
+				"          gender = Gender",
+				"     )) ~> sink2"
+			]
+		}
+	}
+}
