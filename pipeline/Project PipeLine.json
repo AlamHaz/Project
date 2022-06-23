@@ -289,11 +289,11 @@
 												"type": "DataFlowReference",
 												"parameters": {
 													"watermark_feild": {
-														"value": "'@{item().Dest_Table}'",
+														"value": "'@{item().Watermark_Column}'",
 														"type": "Expression"
 													},
 													"sourcetable": {
-														"value": "'@{item().Watermark_Column}'",
+														"value": "'@{item().Dest_Table}'",
 														"type": "Expression"
 													}
 												},
