@@ -1,0 +1,92 @@
+{
+	"name": "dataflow2",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dimproductCate",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				},
+				{
+					"dataset": {
+						"referenceName": "DimProductCat",
+						"type": "DatasetReference"
+					},
+					"name": "source2"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DimProductCat",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "exists1"
+				},
+				{
+					"name": "derivedColumn1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          prod_cat_code as string,",
+				"          prod_cat as string,",
+				"          prod_sub_cat_code as string,",
+				"          prod_subcat as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source(output(",
+				"          Prod_Cat_SubCat_Key as integer,",
+				"          Product_Cat_Code as integer,",
+				"          Product_Category as string,",
+				"          Product_SubCat_Code as integer,",
+				"          Product_SubCategory as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source2",
+				"source1, source2 exists(toInteger(prod_cat_code) == Product_Cat_Code",
+				"     && toInteger(prod_sub_cat_code) == Product_SubCat_Code,",
+				"     negate:true,",
+				"     broadcast: 'auto')~> exists1",
+				"exists1 derive(prod_cat_code = toInteger(prod_cat_code),",
+				"          prod_sub_cat_code = toInteger(prod_sub_cat_code)) ~> derivedColumn1",
+				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          Prod_Cat_SubCat_Key as integer,",
+				"          Product_Cat_Code as integer,",
+				"          Product_Category as string,",
+				"          Product_SubCat_Code as integer,",
+				"          Product_SubCategory as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          Product_Cat_Code = prod_cat_code,",
+				"          Product_Category = prod_cat,",
+				"          Product_SubCat_Code = prod_sub_cat_code,",
+				"          Product_SubCategory = prod_subcat",
+				"     )) ~> sink1"
+			]
+		}
+	}
+}
