@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "pipeline",
+				"name": "pipelineRunTime",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {

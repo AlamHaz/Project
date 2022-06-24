@@ -166,7 +166,7 @@
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> join1",
-				"join1, Dimdate join(toDate(tran_date,'dd-MM-yyyy')  == Date,",
+				"join1, Dimdate join(toDate(tran_date,'MM-dd-yyyy') == Date,",
 				"     joinType:'left',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
